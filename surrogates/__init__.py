@@ -28,17 +28,18 @@ def _overlapping_pairs(iterable):
 def decode(s: str, reject_astral_characters=False) -> str:
     """
     Turns all surrogate pairs —
-    a high surrogate (code point U+D800 to U+DBFF)
+    a high surrogate (code points U+D800 to U+DBFF)
     followed by a low surrogate (code points U+DC00 to U+DFFF)
     – in string ``s`` into astral characters (code points U+10000 and bigger).
 
     May raise exception ``SurrogatesDecodeError`` on broken input.
 
-    With `reject_astral_characters=True` any existing astral characters in ``s`` will be considered
-    an error and raise ``SurrogatesDecodeError`` to communicate this violation.
+    With ``reject_astral_characters=True`` any existing astral characters
+    in ``s`` will be considered an error and raise ``SurrogatesDecodeError``
+    to communicate this violation.
 
-    For Python 3.4 and after this is similar in effect to
-    ``s.encode('utf-16', 'surrogatepass').decode('utf-16')``
+    For Python 3.4 and after ``surrogates.decode(s)`` is similar in effect to
+    ``s.encode('utf-16', 'surrogatepass').decode('utf-16')``.
     """
     if not isinstance(s, str):
         raise TypeError('Not a string: {!r}'.format(s))
@@ -76,7 +77,7 @@ def encode(s: str) -> str:
     """
     Turns all astral characters (code points U+10000 and bigger) in string ``s``
     into surrogate pairs:
-    a high surrogate (code point U+D800 to U+DBFF)
+    a high surrogate (code points U+D800 to U+DBFF)
     followed by a low surrogate (code points U+DC00 to U+DFFF).
     """
     if not isinstance(s, str):
