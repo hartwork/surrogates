@@ -1,7 +1,7 @@
 # Copyright (C) 2019 Sebastian Pipping <sebastian@pipping.org>
 # Licensed under the MIT license
 
-from itertools import chain, tee
+from itertools import chain as _chain, tee as _tee
 
 _END_OF_STRING = object()
 
@@ -20,9 +20,9 @@ class DecodeError(Exception):
 
 def _overlapping_pairs(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ... (s(N-1), sN), (sN, _EndOfString)"
-    a, b = tee(iterable)
+    a, b = _tee(iterable)
     next(b, None)
-    return zip(a, chain(b, [_END_OF_STRING]))
+    return zip(a, _chain(b, [_END_OF_STRING]))
 
 
 def decode(s: str, reject_astral_characters=False) -> str:
