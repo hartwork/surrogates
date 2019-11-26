@@ -10,6 +10,8 @@ setup(
 
     license='MIT',
     description='Encode and decode pairs of surrogate characters',
+    long_description=open('README.md', encoding='utf-8').read(),
+    long_description_content_type='text/markdown',
 
     author='Sebastian Pipping',
     author_email='sebastian@pipping.org',
