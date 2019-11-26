@@ -25,7 +25,8 @@ class EncoderTest(TestCase):
     @parameterized.expand([
         ('none', None, TypeError, 'Not a string: None'),
     ])
-    def test_invalid(self, _label, decoded, expected_exception, expected_message):
+    def test_invalid(self, _label, decoded, expected_exception,
+                     expected_message):
         with self.assertRaises(expected_exception) as catcher:
             surrogates.encode(decoded)
 
@@ -35,9 +36,12 @@ class EncoderTest(TestCase):
 class DecoderTest(TestCase):
     @parameterized.expand([
         ('none', None, TypeError, 'Not a string: None'),
-        ('high surrogate early end of string', chr(0xD83D), surrogates.DecodeError,
-         'Early string end: high surrogate U+D83D not followed by a low surrogate'),
-        ('high surrogate followed by not-low-surrogate character', chr(0xD83D) + 'ABC',
+        ('high surrogate early end of string', chr(0xD83D),
+         surrogates.DecodeError,
+         'Early string end: high surrogate U+D83D not followed '
+         'by a low surrogate'),
+        ('high surrogate followed by not-low-surrogate character',
+         chr(0xD83D) + 'ABC',
          surrogates.DecodeError,
          'High surrogate U+D83D not followed by a low surrogate: found U+41'),
         ('low surrogate first', chr(0xDCA9), surrogates.DecodeError,

@@ -5,9 +5,12 @@ from itertools import chain as _chain, tee as _tee
 
 _END_OF_STRING = object()
 
-_MESSAGE_EARLY_STRING_END = 'Early string end: high surrogate U+{high:X} not followed by a low surrogate'
-_MESSAGE_LONE_HIGH_SURROGATE = 'High surrogate U+{high:X} not followed by a low surrogate: found U+{second:X}'
-_MESSAGE_LOW_SURROGATE_FIRST = 'Low surrogate U+{low:X} not preceded by a high surrogate'
+_MESSAGE_EARLY_STRING_END = ('Early string end: high surrogate U+{high:X} '
+                             'not followed by a low surrogate')
+_MESSAGE_LONE_HIGH_SURROGATE = ('High surrogate U+{high:X} not followed '
+                                'by a low surrogate: found U+{second:X}')
+_MESSAGE_LOW_SURROGATE_FIRST = ('Low surrogate U+{low:X} not preceded '
+                                'by a high surrogate')
 _MESSAGE_ASTRAL_CHARACTERS = 'Astral character U+{astral:X} not allowed'
 
 
@@ -54,19 +57,24 @@ def decode(s: str, reject_astral_characters=False) -> str:
 
         if 0xD800 <= ord(first) <= 0xDBFF:
             if second is _END_OF_STRING:
-                raise DecodeError(_MESSAGE_EARLY_STRING_END.format(high=ord(first)))
+                raise DecodeError(_MESSAGE_EARLY_STRING_END
+                                  .format(high=ord(first)))
 
             if 0xDC00 <= ord(second) <= 0xDFFF:
-                astral = 0x10000 + (ord(first) - 0xD800) * 0x400 + (ord(second) - 0xDC00)
+                astral = (0x10000
+                          + (ord(first) - 0xD800) * 0x400
+                          + (ord(second) - 0xDC00))
                 decoded_s.append(chr(astral))
                 skip = True
             else:
-                raise DecodeError(_MESSAGE_LONE_HIGH_SURROGATE.format(high=ord(first),
-                                                                      second=ord(second)))
+                raise DecodeError(_MESSAGE_LONE_HIGH_SURROGATE
+                                  .format(high=ord(first), second=ord(second)))
         elif 0xDC00 <= ord(first) <= 0xDFFF:
-            raise DecodeError(_MESSAGE_LOW_SURROGATE_FIRST.format(low=ord(first)))
+            raise DecodeError(_MESSAGE_LOW_SURROGATE_FIRST
+                              .format(low=ord(first)))
         elif reject_astral_characters and ord(first) >= 0x10000:
-            raise DecodeError(_MESSAGE_ASTRAL_CHARACTERS.format(astral=ord(first)))
+            raise DecodeError(_MESSAGE_ASTRAL_CHARACTERS
+                              .format(astral=ord(first)))
         else:
             decoded_s.append(first)
 
@@ -75,8 +83,8 @@ def decode(s: str, reject_astral_characters=False) -> str:
 
 def encode(s: str) -> str:
     """
-    Turns all astral characters (code points U+10000 and bigger) in string ``s``
-    into surrogate pairs:
+    Turns all astral characters (code points U+10000 and bigger)
+    in string ``s`` into surrogate pairs:
     a high surrogate (code points U+D800 to U+DBFF)
     followed by a low surrogate (code points U+DC00 to U+DFFF).
     """
