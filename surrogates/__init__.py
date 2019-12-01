@@ -1,7 +1,8 @@
 # Copyright (C) 2019 Sebastian Pipping <sebastian@pipping.org>
 # Licensed under the MIT license
 
-from itertools import chain as _chain, tee as _tee
+from itertools import chain as _chain
+from itertools import tee as _tee
 
 _END_OF_STRING = object()
 
