@@ -39,5 +39,9 @@ git clone https://github.com/hartwork/surrogates
 cd surrogates/
 python3 -m venv py3
 source py3/bin/activate
+
 ./setup.py test
+
+pip3 install pre-commit
+pre-commit install --install-hooks
 ```
