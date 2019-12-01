@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='surrogates',
-    version='1.0.1',
+    version='1.0.2',
 
     license='MIT',
     description='Encode and decode pairs of surrogate characters',
