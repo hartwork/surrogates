@@ -9,7 +9,7 @@ It is licensed under [the MIT license](https://opensource.org/licenses/MIT).
 
 # Installation
 ```console
-# pip install --user surrogates
+# pip3 install --user surrogates
 ```
 
 
