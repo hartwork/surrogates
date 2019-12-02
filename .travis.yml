@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.8"
+
+jobs:
+  include:
+    - stage: test
+      install:
+        - pip install pre-commit
+        - pre-commit install --install-hooks
+      script:
+        - pre-commit run --all-files
+
+    - stage: test
+      script:
+        - ./setup.py test
